@@ -1,7 +1,7 @@
 package main
 
 import(
-	"github.com/leeli73/goFileView/perview"
+	"goFileViewLib/perview"
 )
 
 func main() {

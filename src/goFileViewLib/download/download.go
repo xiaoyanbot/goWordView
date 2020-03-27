@@ -9,7 +9,8 @@ import(
     "net/http"
     "os"
 	"strconv"
-	"github.com/leeli73/goFileView/utils"
+	
+	"goFileViewLib/utils"
 )
 
 func IsFileExist(filename string, filesize int64) bool {

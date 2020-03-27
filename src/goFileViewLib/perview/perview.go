@@ -11,8 +11,9 @@ import(
 	"net/url"
 	"net/http"
 	"io/ioutil"
-	"github.com/leeli73/goFileView/utils"
-	"github.com/leeli73/goFileView/download"
+
+	"goFileViewLib/utils"
+	"goFileViewLib/download"
 )
 
 type NowFile struct {
@@ -220,6 +221,7 @@ func Monitor(){
 }
 
 func StartServer(){
+	//log.("123")
 	http.HandleFunc(Pattern,Handle)
 	log.Println("Info: Go File View Listening Address: "+Address+ " on " + Pattern)
 	if err := http.ListenAndServe(Address, nil); err != nil {
