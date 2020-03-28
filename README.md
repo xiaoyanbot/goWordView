@@ -1,27 +1,19 @@
-goFileView 基于go语言的文件预览
-===========================
+goWordView 基于go语言的Word文件预览
+===============================
 
-本仓库为对 https://github.com/leeli73/goFileView.git 的folk分支版本。
+本仓库工作基于 GoFileView 和 kkFileView 工作基础之上，并遵循相关开源协议。
 
-GoFileView是受kkFileView( *https://gitee.com/kekingcn/file-online-preview.git*
-)启发并基于其网站前端开发的。目前goFileView处于最原始的起步状态，相对简陋，相信随着不断完善成为一套强壮的系统。本人代码风格相对较”狂”，欢迎大家一起来提出建议和完善Go
-File View。
+感谢 GoFileView ( *https://github.com/leeli73/goFileView.git* ) 和 kkFileView( *https://gitee.com/kekingcn/file-online-preview.git* )
 
-特别要感谢kkfileview的开源，让我可以使用它的前端页面直接开发。调用方式也在很大程度上参考了kkfileview。
-
-仅支持Linux系统，url暂时不支持中文等问题。  已测试Ubuntu适用。
+仅支持Linux系统，url暂时不支持中文。  已测试Ubuntu、CentOS
 
 目前已经完成
 ============
 
-Word、Excel、PPT转码为PDF
-
-对Word,Excel,PPT和PDF的在线预览
+Word转码为PDF，对PDF的在线预览
 
 TODO
 ====
-
-内置File Server
 
 本地路径指定，省去下载步骤
 
@@ -35,15 +27,23 @@ TODO
 
 确保Libreoffice在path目录下
 
-编译
+运行
 ----
 
 下载源码
 
 设置 GOPATH 为当前的目录
 
-cd goFileView
+启动静态文件服务器
 
-go build main.go
+go run webs.go
+
+启动预览服务
+
+go run main.go
+
+在浏览器里输入
+
+http://localhost:8088/perview/onlinePreview?url=http://localhost:9090/123.docx
 
 
