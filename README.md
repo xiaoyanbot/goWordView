@@ -17,6 +17,8 @@ TODO
 
 本地路径指定，省去下载步骤
 
+定制LibreOffice分发版，去掉对系统LibreOffice的依赖
+
 部署编译
 ========
 
