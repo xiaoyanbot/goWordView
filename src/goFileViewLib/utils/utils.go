@@ -13,9 +13,20 @@ import(
 	"crypto/md5"
 )
 
-func ComparePath(a string,b string) bool {
-	if len(a) >= len(b){
-		if strings.Compare(a[0:len(b)],b) == 0 {
+/**
+ * 比较字符串
+ * 获得的字符串，和 flag 之间比较
+ * onlinePerview?url=http://localhost:9090/123.docx
+ * onlinePreview
+ */
+func ComparePath(filePathGive string, flag string) bool {
+
+	//log.Println("filePathGive:" + filePathGive)
+	//log.Println("flag:" + flag)
+	//log.Println("截取:" + filePathGive[0:len(flag)])
+
+	if len(filePathGive) >= len(flag){
+		if strings.Compare(filePathGive[0:len(flag)], flag) == 0 {
 			return true
 		} else {
 			return false

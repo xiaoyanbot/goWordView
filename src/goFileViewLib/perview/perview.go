@@ -32,21 +32,24 @@ var (
 )
 
 func Handle(w http.ResponseWriter, r *http.Request){
+	log.Println("进入 Handle 方法")
 	if Pattern == "" || Address == "" {
 		log.Fatal("Error: Please Init Go File View First!")
 	}
 	requestUrl :=r.URL.String()
 	filePath := requestUrl[len(Pattern):]
 	if utils.ComparePath(filePath,"onlinePreview") {
+		log.Println("进入预览")
 		r.ParseForm()
 		submitUrl := r.Form.Get("url")
 		fileUrl,err := url.QueryUnescape(submitUrl)
 		if err != nil{
+			log.Println("URL解码出现错误")
 			w.Write([]byte("URL解码出现错误"))
 			return
 		}
 		submitType := r.Form.Get("type")
-		if filePath,err := download.DownloadFile(fileUrl,"cache/download/"+path.Base(fileUrl));err == nil{
+		if filePath,err := download.DownloadFile(fileUrl,"./cache/download/"+path.Base(fileUrl));err == nil{
 			if submitType == "pdf" && (path.Ext(filePath) == ".pdf" || utils.IsInArr(path.Ext(filePath),AllOfficeEtx)){ //预留的PDF预览接口
 				
 			} else if utils.IsInArr(path.Ext(filePath),AllImageEtx){
@@ -133,6 +136,7 @@ func Handle(w http.ResponseWriter, r *http.Request){
 		w.Write(DataByte)
 	} else {
 		DataByte,err := ioutil.ReadFile("html/" + filePath)
+		log.Println("filePath: "+filePath)
 		if err != nil{
 			w.Header().Set("content-length",strconv.Itoa(len("404")))
 			w.Header().Set("content-type","text/html;charset=UTF-8")
@@ -207,6 +211,7 @@ func setFileMap(fileName string){
 }
 
 func Monitor(){
+	log.Println("1111111111111111111")
 	log.Println("Info: Starting Monitor Thread")
 	for _,v := range AllFile {
 		if time.Now().Unix() - v.LastActiveTime > ExpireTime {
@@ -221,7 +226,7 @@ func Monitor(){
 }
 
 func StartServer(){
-	//log.("123")
+	log.Println("123")
 	http.HandleFunc(Pattern,Handle)
 	log.Println("Info: Go File View Listening Address: "+Address+ " on " + Pattern)
 	if err := http.ListenAndServe(Address, nil); err != nil {

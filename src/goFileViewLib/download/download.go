@@ -24,6 +24,10 @@ func IsFileExist(filename string, filesize int64) bool {
 	os.Remove(filename)
 	return false
 }
+
+/*
+ * 下载文件的方法
+ */
 func DownloadFile(url string, localPath string) (string,error) {
 	var (
 		fsize   int64
