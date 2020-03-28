@@ -59,22 +59,22 @@ func Handle(w http.ResponseWriter, r *http.Request){
 				w.Write([]byte(dataByte))
 			} else if utils.IsInArr(path.Ext(filePath),AllOfficeEtx){
 				if isHave(path.Base(filePath)){
-					dataByte := officePage("cache/convert/"+strings.Split(path.Base(filePath),".")[0])
+					dataByte := officePage(filePath)
 					w.Header().Set("content-length",strconv.Itoa(len(dataByte)))
 					w.Header().Set("content-type","text/html;charset=UTF-8")
 					w.Write([]byte(dataByte))
 					return
 				}
 				if pdfPath := utils.ConvertToPDF(filePath);pdfPath != "" {
-					if imgPath := utils.ConvertToImg(pdfPath);imgPath != "" {
-						dataByte := officePage(imgPath)
+					//if imgPath := utils.ConvertToImg(pdfPath);imgPath != "" {
+						dataByte := officePage(pdfPath)
 						w.Header().Set("content-length",strconv.Itoa(len(dataByte)))
 						w.Header().Set("content-type","text/html;charset=UTF-8")
 						w.Write([]byte(dataByte))
 						setFileMap(path.Base(filePath))
-					} else {
-						w.Write([]byte("转换为图片时出现错误!"))
-					}
+					//} else {
+					//	w.Write([]byte("转换为图片时出现错误!"))
+					//}
 				} else {
 					w.Write([]byte("转换为PDF时出现错误!"))
 				}
@@ -154,6 +154,15 @@ func Handle(w http.ResponseWriter, r *http.Request){
 }
 
 func officePage(imgPath string) []byte{
+
+	dataByte,_ := ioutil.ReadFile("html/pdf.html")
+	dataStr := string(dataByte)
+	pdfUrl := "http://localhost:9090/" + imgPath
+	dataStr = strings.Replace(dataStr,"{{url}}", pdfUrl,-1)
+	dataByte = []byte(dataStr)
+	return dataByte
+
+	/**
 	rd,_ := ioutil.ReadDir(imgPath)
 	dataByte,_ := ioutil.ReadFile("html/office.html")
 	dataStr := string(dataByte)
@@ -168,9 +177,24 @@ func officePage(imgPath string) []byte{
 	dataStr = strings.Replace(dataStr,"{{AllImages}}",htmlCode,-1)
 	dataByte = []byte(dataStr)
 	return dataByte
+	**/
+
 }
 
+/**
+ * 显示图片
+ */
 func imagePage(filePath string) []byte {
+
+	dataByte,_ := ioutil.ReadFile("html/pdf.html")
+	dataStr := string(dataByte)
+	pdfUrl := "http://localhost:9090/" + filePath
+	dataStr = strings.Replace(dataStr,"{{url}}", pdfUrl,-1)
+	dataByte = []byte(dataStr)
+	return dataByte
+
+
+	/**
 	dataByte,_ := ioutil.ReadFile("html/image.html")
 	dataStr := string(dataByte)
 	imageUrl := "img_asset/" + path.Base(filePath)
@@ -182,7 +206,23 @@ func imagePage(filePath string) []byte {
 	dataStr = strings.Replace(dataStr,"{{FirstPath}}",imageUrl,-1)
 	dataByte = []byte(dataStr)
 	return dataByte
+	**/
 }
+
+
+/**
+ * 显示图片
+ */
+func pdfPage(filePath string) []byte {
+	dataByte,_ := ioutil.ReadFile("html/pdf.html")
+	dataStr := string(dataByte)
+	pdfUrl := "http://localhost:9090/" + filePath
+	dataStr = strings.Replace(dataStr,"{{url}}", pdfUrl,-1)
+	dataByte = []byte(dataStr)
+	return dataByte
+}
+
+
 
 func isHave(fileName string) bool {
 	fileName = strings.Split(fileName,".")[0]
@@ -211,8 +251,7 @@ func setFileMap(fileName string){
 }
 
 func Monitor(){
-	log.Println("1111111111111111111")
-	log.Println("Info: Starting Monitor Thread")
+	log.Println("Info: Start Monitor And Clean Cache Thread")
 	for _,v := range AllFile {
 		if time.Now().Unix() - v.LastActiveTime > ExpireTime {
 			os.RemoveAll("cache/convert/"+v.Md5)
@@ -226,7 +265,6 @@ func Monitor(){
 }
 
 func StartServer(){
-	log.Println("123")
 	http.HandleFunc(Pattern,Handle)
 	log.Println("Info: Go File View Listening Address: "+Address+ " on " + Pattern)
 	if err := http.ListenAndServe(Address, nil); err != nil {

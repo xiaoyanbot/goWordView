@@ -16,14 +16,12 @@ File View。
 
 Word、Excel、PPT转码为PDF
 
-PDF转码为图片
-
-对Word,Excel,PPT和PDF的图片式在线预览
+对Word,Excel,PPT和PDF的在线预览
 
 TODO
 ====
 
-内置Fire Server
+内置File Server
 
 本地路径指定，省去下载步骤
 
@@ -35,9 +33,7 @@ TODO
 
 安装Libreoffice
 
-安装convert
-
-确保Libreoffice和conver都在path目录下
+确保Libreoffice在path目录下
 
 编译
 ----

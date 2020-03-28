@@ -5,15 +5,15 @@
     <style>
         .pdfobject-container {
             height: 30rem;
-            border: 1rem solid rgba(0, 0, 0, .1);
+            border: 2px solid rgba(0, 0, 0, .1);
         }
     </style>
 </head>
 
 <body>
-    <div id="pdf"></div>
+    <div id="pdf" style="height:100%"></div>
 </body>
-<script src="/js/pdfobject.js"></script>
+<script src="http://localhost:9090/html/js/pdfobject.js"></script>
 <script>PDFObject.embed("{{url}}", "#pdf");</script>
 
 </html>
